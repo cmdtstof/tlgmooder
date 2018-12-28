@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#html
+rsync -rvzuP --delete html/* root@vps502802.ovh.net:/var/www/nik/mood
+
+#code
+rsync -rvzuP --delete tlgmooder/* root@vps502802.ovh.net:/opt/tlgmooder
