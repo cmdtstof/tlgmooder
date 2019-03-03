@@ -25,15 +25,15 @@ sub dbWriter{
   for (my $i = 0; $i < @array; $i++) {
     # Utili::Dbgcmdt::dumper( $array[$i][0] );
 
-    my %fieldvals;
-    %fieldvals = (%fieldvals, %{$array[$i][0]} );
-    if (existTimestamp($fieldvals{date})) {
-      Utili::Dbgcmdt::prnwo("existing>updating $fieldvals{date}");
-      updatetblMood($fieldvals{date}, %fieldvals);
-    } else {
-      Utili::Dbgcmdt::prnwo("adding $fieldvals{date}");
-      insertHash("tblMood", %fieldvals);
-    }
+      my %fieldvals;
+      %fieldvals = (%fieldvals, %{$array[$i][0]} );
+      if (existTimestamp($fieldvals{date})) {
+        Utili::Dbgcmdt::prnwo("existing>updating $fieldvals{date}");
+        updatetblMood($fieldvals{date}, %fieldvals);
+      } else {
+        Utili::Dbgcmdt::prnwo("adding $fieldvals{date}");
+        insertHash("tblMood", %fieldvals);
+      }
   } #for
 }
 

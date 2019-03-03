@@ -12,22 +12,27 @@ use Utili::Dbgcmdt;
 Utili::Dbgcmdt::prnwo("############start...##########################");
 
 my %cfg;
-my $cfgFilename = "../../cfg/cfg.pl";
+my $cfgFilename = "../../cfg/cfg-dev.pl"; #yu may like to change it?
 my $cfgTmp = do($cfgFilename);
 %cfg = (%cfg, %$cfgTmp);
 
 Utili::Dbgcmdt::prnwo("get messages fromId to array...");
 my @array = TelegramParser::getDateTextForId($cfg{apiBase}, $cfg{token}, $cfg{fromId});  #array of hashes
-# Utili::Dbgcmdt::dumper(@array);
+Utili::Dbgcmdt::dumper(@array);
 
-Utili::Dbgcmdt::prnwo("write into db...");
-Db1::main($cfg{db1}, @array);
+if (@{ $array[0] }) {
+  Utili::Dbgcmdt::prnwo("write into db...");
+  Db1::main($cfg{db1}, @array);
 
-Utili::Dbgcmdt::prnwo("write tsv...");
-Tsv1::main($cfg{tsvFilename});
+  Utili::Dbgcmdt::prnwo("write tsv...");
+  Tsv1::main($cfg{tsvFilename});
 
-# rsync tsv on html place
-system('rsync', '-rvzuP', '--delete', $cfg{tsvFilename}, $cfg{tsvWWWFile});
-Utili::Dbgcmdt::prnwo("tsv rsynced to $cfg{tsvWWWFile}");
+  # rsync tsv on html place
+  system('rsync', '-rvzuP', '--delete', $cfg{tsvFilename}, $cfg{tsvWWWFile});
+  Utili::Dbgcmdt::prnwo("tsv rsynced to $cfg{tsvWWWFile}");
+} else {
+  Utili::Dbgcmdt::prnwo("nothing to do");
+}
+
 Utili::Dbgcmdt::prnwo("############...end##########################");
 1;
