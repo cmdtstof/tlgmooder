@@ -12,13 +12,23 @@ use Utili::Dbgcmdt;
 Utili::Dbgcmdt::prnwo("############start...##########################");
 
 my %cfg;
-my $cfgFilename = "../../cfg/cfg-dev.pl"; #yu may like to change it?
+$cfg{mode} = "prod";
+my ($arg1) = @ARGV;
+if ($arg1) {$cfg{mode} = $arg1};
+
+my $cfgFilename;
+if ($cfg{mode} eq "prod") {
+  $cfgFilename = "./cfg/cfg.pl";
+} else {
+  $cfgFilename = "../../cfg/cfg-dev.pl";
+}
+Utili::Dbgcmdt::prnwo("get cfg *$cfg{mode}* - $cfgFilename");
 my $cfgTmp = do($cfgFilename);
 %cfg = (%cfg, %$cfgTmp);
 
 Utili::Dbgcmdt::prnwo("get messages fromId to array...");
 my @array = TelegramParser::getDateTextForId($cfg{apiBase}, $cfg{token}, $cfg{fromId});  #array of hashes
-Utili::Dbgcmdt::dumper(@array);
+# Utili::Dbgcmdt::dumper(@array);
 
 if (@{ $array[0] }) {
   Utili::Dbgcmdt::prnwo("write into db...");

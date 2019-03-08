@@ -4,4 +4,5 @@
 rsync -rvzuP --delete html/* root@vps502802.ovh.net:/var/www/nik/mood
 
 #code
+# rsync -rvzuP --delete --exclude-from=tlgmooder/.gitignore tlgmooder/* root@vps502802.ovh.net:/opt/tlgmooder
 rsync -rvzuP --delete tlgmooder/* root@vps502802.ovh.net:/opt/tlgmooder
